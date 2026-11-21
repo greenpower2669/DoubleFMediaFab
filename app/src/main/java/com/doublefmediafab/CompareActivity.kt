@@ -105,11 +105,15 @@ class CompareActivity : AppCompatActivity() {
             text = "Agrandir"
             isAllCaps = false
             setOnClickListener {
-                startActivity(Intent(this@CompareActivity, ViewerActivity::class.java).apply {
-                    putExtra("uri", uriText)
-                    putExtra("video", isVideo)
-                    putExtra("title", title)
-                })
+                val first = MediaFile(Uri.parse(intent.getStringExtra("uriA")),
+                    intent.getStringExtra("titleA") ?: "Média A", 0L, 0L, "",
+                    if (intent.getBooleanExtra("videoA", false)) MediaFile.VIDEO else MediaFile.PHOTO, "")
+                val second = MediaFile(Uri.parse(intent.getStringExtra("uriB")),
+                    intent.getStringExtra("titleB") ?: "Média B", 0L, 0L, "",
+                    if (intent.getBooleanExtra("videoB", false)) MediaFile.VIDEO else MediaFile.PHOTO, "")
+                val pair = listOf(first, second)
+                ViewerActivity.open(this@CompareActivity,
+                    pair.first { it.uri.toString() == uriText }, pair)
             }
         }
         column.addView(see)
