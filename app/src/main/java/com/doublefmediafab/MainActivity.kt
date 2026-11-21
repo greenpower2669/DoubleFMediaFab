@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private var working = false
     private var mode = "galerie"
     private var mediaFilter = 2
+    private var currentQueue = emptyList<MediaFile>()
+    private var mediaPreviewOpen = false
     private lateinit var status: TextView
     private lateinit var gallery: GalleryAdapter
     private lateinit var search: EditText
@@ -106,13 +108,17 @@ class MainActivity : AppCompatActivity() {
         root.addView(search, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(49)))
         gallery = GalleryAdapter(
             onOpen = { entry ->
+                mediaPreviewOpen = true
                 if (entry.partner != null) {
                     CompareActivity.open(this, entry.file, entry.partner)
                 } else {
-                    ViewerActivity.open(this, entry.file)
+                    ViewerActivity.open(this, entry.file, currentQueue)
                 }
             },
-            onInspect = { entry -> ViewerActivity.open(this, entry.file) }
+            onInspect = { entry ->
+                mediaPreviewOpen = true
+                ViewerActivity.open(this, entry.file, currentQueue)
+            }
         )
         grid = RecyclerView(this).apply {
             layoutManager = GridLayoutManager(this@MainActivity, 3)
@@ -156,6 +162,11 @@ class MainActivity : AppCompatActivity() {
                 val found = MediaFiles.scan(this)
                 runOnUiThread {
                     files = found; working = false
+                    val existing = found.map { it.uri }.toSet()
+                    groups = groups.mapNotNull { g ->
+                        g.copy(items = g.items.filter { it.uri in existing })
+                            .takeIf { it.items.size > 1 }
+                    }
                     AppLog.write(this, "MEDIA_SCAN", "count=${files.size}")
                     render()
                 }
@@ -220,6 +231,7 @@ class MainActivity : AppCompatActivity() {
             }
             status.text = "${entries.size} médias affichés / ${files.size} trouvés · appui long : plein écran"
         }
+        currentQueue = entries.map { it.file }
         gallery.submit(entries)
     }
 
@@ -241,8 +253,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // MediaStore can change after the system trash confirmation.
-        if (::gallery.isInitialized && files.isNotEmpty() && !working) {
-            // Refresh is always available through the toolbar.
+        if (::gallery.isInitialized && mediaPreviewOpen && !working) {
+            mediaPreviewOpen = false
+            loadMedia()
+        } else if (::gallery.isInitialized && files.isNotEmpty() && !working) {
             render()
         }
     }
