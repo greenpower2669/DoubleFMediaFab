@@ -4,7 +4,7 @@ plugins {
 }
 android {
     namespace = "com.doublefmediafab"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.doublefmediafab"
         minSdk = 30
