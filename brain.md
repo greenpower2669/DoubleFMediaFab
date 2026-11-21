@@ -25,3 +25,10 @@ Projet Android natif Kotlin. Objectif : nettoyer photos et vidéos locales (y co
 - Modèle d'étiquetage ML Kit différent d'un modèle d'embeddings. Tester une évolution lorsque cela améliore les mesures.
 - Confort zoom photo et lecture côte à côte sur petit écran.
 - Signature debug de CI, non destinée à publication.
+
+## Évolution v0.2.0 — lecteur immersif
+- Glissement horizontal précédent/suivant en plein écran, y compris vidéos ; pincement zoom et déplacement photo, boutons ±.
+- Double-tap fait apparaître ou masque outils et playlist de miniatures.
+- Diaporama : 5 secondes par photo ; vidéos lues jusqu'au bout ; transitions fondu + léger zoom.
+- Playlist basée sur le filtre galerie courant sans transférer de gros tableaux par Intent. Retour corbeille rafraîchit la galerie.
+- Reste à vérifier sur appareil réel : gestures, latence sur vidéos longues et survie après destruction du processus.
