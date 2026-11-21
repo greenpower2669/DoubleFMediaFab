@@ -3,9 +3,18 @@
 Explorateur multimédia Android natif, détecteur de doublons photo et vidéo, lecteur intégré, comparaison et corbeille contrôlée.
 
 ## Installation Android
-Le fichier APK de test est publié dans les [Releases GitHub](https://github.com/greenpower2669/DoubleFMediaFab/releases), en téléchargement direct (pas d'archive ZIP). Il doit s'appeler `DoubleFMediaFab-v0.1.0-debug.apk`.
+Le fichier APK de test est publié dans les [Releases GitHub](https://github.com/greenpower2669/DoubleFMediaFab/releases), en téléchargement direct (pas d'archive ZIP). Il doit s'appeler `DoubleFMediaFab-v0.2.0-debug.apk`.
 
 **Attention :** cette APK est signée par la clé de développement utilisée dans GitHub Actions. Elle sert aux essais, et sa signature pourra changer lors des prochaines compilations ; sauvegarder les préférences importantes avant une réinstallation.
+
+## Nouveautés v0.2.0
+- **Glisser à gauche/droite** dans le lecteur plein écran pour ouvrir le média suivant/précédent.
+- **Pincer** pour agrandir/réduire une photo, déplacer l’image agrandie ; commandes **+ Zoom** / **− Zoom**.
+- **Transitions animées** entre les médias (fondu et zoom léger).
+- **Double-tap sur la photo ou vidéo** : affiche/masque les outils, diaporama, corbeille et la liste de lecture à miniatures.
+- **Diaporama automatique** : photos toutes les 5 secondes et vidéos jusqu’à la fin, avec playlist navigable.
+- **Corbeille depuis le lecteur plein écran** après deux confirmations : dialogue de l’app puis système Android.
+- La playlist reflète les médias et filtres actuellement affichés dans la galerie ; l’écran de comparaison permet de lire ses deux éléments.
 
 ## Fonctionnement
 1. Autoriser l'accès aux photos et aux vidéos (sur Android 14+, autoriser toutes les photos pour un audit complet, ou uniquement une sélection pour un audit limité).
