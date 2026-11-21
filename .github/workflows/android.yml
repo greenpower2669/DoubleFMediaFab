@@ -23,10 +23,16 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-      - name: Install Android 35 SDK
-        run: sdkmanager --install "platforms;android-35" "build-tools;35.0.0"
+      - name: Use preinstalled Android SDK on GitHub runner
+        shell: bash
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          test -d "$ANDROID_HOME"
+          echo "Installed platforms:"
+          ls -1 "$ANDROID_HOME/platforms" || true
+          if [ ! -d "$ANDROID_HOME/platforms/android-35" ]; then
+            "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "platforms;android-35" "build-tools;35.0.0"
+          fi
       - name: Compile Android debug APK
         run: gradle :app:assembleDebug --no-daemon --stacktrace
       - name: Verify and name direct APK
